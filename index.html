@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Método Design System</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../assets/favicon/favicon-32.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+:root{color-scheme:light;
+--navy:#002E6D;--navy-900:#001A42;--navy-800:#00245A;--navy-600:#1B4C8C;--navy-100:#E3EAF4;
+--orange:#FF9B00;--orange-600:#E68A00;--orange-100:#FFF1DA;--steel:#919497;
+--white:#FFFFFF;--steel-50:#F4F6F9;--steel-100:#E9EDF2;--line:#D4DAE3;--ink:#0D1A2E;--text:#2A3446;--muted:#5A6475;
+--f-display:"Barlow Semi Condensed","Conduit ITC","Arial Narrow",Arial,sans-serif;
+--f-body:"Source Sans 3","Myriad Pro","Segoe UI",Arial,sans-serif;--r-2:4px}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--white);color:var(--text);font-family:var(--f-body);font-size:17px;line-height:1.55}
+h1,h2,h3{font-family:var(--f-display);color:var(--ink);margin:0;line-height:1.08;font-weight:600;text-wrap:balance}
+p{margin:0}
+.top{background:var(--navy);color:#C9D5E7;padding-block:56px 48px}
+.wrap{max-width:1120px;margin-inline:auto;padding-inline:max(16px,4vw)}
+.top h1{color:#fff;font-size:clamp(2.4rem,5vw,3.6rem)}
+.top p{max-width:62ch;margin-top:12px;font-size:1.15rem}
+.top .brand{display:flex;align-items:center;gap:10px;color:#fff;margin-bottom:28px}
+.top .brand svg{width:44px;height:44px}.top .brand b{font-family:var(--f-display);font-size:1.6rem}
+section{padding-block:64px;border-bottom:1px solid var(--line)}
+.lbl{font-family:var(--f-display);font-weight:600;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy-600);display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.lbl::before{content:"";width:28px;height:3px;background:var(--orange)}
+h2{font-size:2rem;margin-bottom:8px}
+.lead{color:var(--muted);max-width:66ch;margin-bottom:32px}
+.sw{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.sw.n{grid-template-columns:repeat(6,1fr)}
+.chip{border:1px solid var(--line)}
+.chip div{height:110px}
+.chip.s div{height:72px}
+.chip p{padding:10px 12px;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.chip b{display:block;color:var(--ink);font-family:var(--f-display);font-size:1rem}
+.type{display:grid;gap:0;border-top:1px solid var(--line)}
+.trow{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:18px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.trow small{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.trow small b{display:block;color:var(--ink);font-family:var(--f-display);font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.fonts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+.font{border:1px solid var(--line);padding:24px;display:grid;gap:8px}
+.font .big{font-size:3rem;line-height:1;color:var(--navy)}
+.font p{color:var(--muted);font-size:.9rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.demo{border:1px solid var(--line);padding:24px;display:grid;gap:16px;align-content:start}
+.demo.dark{background:var(--navy);border-color:var(--navy)}
+.demo h3{font-size:1.1rem;letter-spacing:.06em;text-transform:uppercase}
+.demo.dark h3{color:#9FB6D8}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.note{font-size:.88rem;color:var(--muted)}
+.demo.dark .note{color:#9FB6D8}
+.btn{--bg:var(--orange);--fg:var(--ink);display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 24px;border:1px solid var(--bg);border-radius:6px;background:var(--bg);color:var(--fg);font-family:var(--f-display);font-weight:600;font-size:1.0625rem;letter-spacing:.01em;text-transform:none;text-decoration:none;white-space:nowrap;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.btn:hover{--bg:var(--orange-600)}
+.btn-navy{--bg:var(--navy);--fg:#fff}.btn-navy:hover{--bg:var(--navy-800)}.btn-line{--bg:#fff;--fg:var(--navy);border-color:var(--navy)}.btn-line:hover{--bg:var(--navy-100);border-color:var(--navy)}.btn-ghost{--bg:transparent;--fg:#fff;border-color:rgba(255,255,255,.6)}
+.field{display:grid;gap:6px;max-width:320px}
+.field label{font-family:var(--f-body);font-weight:700;font-size:.875rem;color:var(--ink)}
+.field input{font:inherit;font-size:1rem;background:#fff;border:1px solid #A9AFB8;border-radius:6px;padding:10px 12px;min-height:44px}
+.field input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-100)}
+.navdemo{background:#fff;border:1px solid var(--line);display:flex;align-items:center;gap:20px;padding:14px 20px;color:var(--text);font-family:var(--f-display);font-weight:600;flex-wrap:wrap}
+.navdemo svg{width:34px;height:34px;color:var(--navy)}.navdemo .l{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}.navdemo .l span:first-child{color:var(--navy);box-shadow:0 2px 0 var(--orange)}
+.card{background:#fff;border:1px solid var(--line);border-top:4px solid var(--navy);padding:24px;display:grid;gap:8px}
+.card h4{margin:0;font-family:var(--f-display);font-size:1.5rem;color:var(--ink);font-weight:600}
+.card p{color:var(--muted);font-size:.95rem}
+.logos{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.logo{border:1px solid var(--line);aspect-ratio:4/3;display:grid;place-items:center;gap:6px;padding:16px;text-align:center}
+.logo svg{width:72px;height:72px;color:var(--navy)}
+.logo.inv{background:var(--navy)}.logo.inv svg{color:#fff}
+.logo.gr{background:var(--steel)}.logo.gr svg{color:#fff}
+.logo b{font-family:var(--f-display);font-size:1.7rem;color:var(--navy);line-height:1}
+.cap{font-size:.8rem;color:var(--muted);margin-top:8px}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rule{border-top:3px solid var(--navy);padding-top:14px;display:grid;gap:6px}
+.rule.no{border-top-color:#B42318}
+.rule h3{font-size:1.2rem}.rule p{color:var(--muted);font-size:.95rem}
+.sp{display:flex;flex-wrap:wrap;gap:20px;align-items:end}
+.sp div{display:grid;gap:6px;font-size:.8rem;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.sp i{display:block;background:var(--orange);height:24px}
+pre{background:var(--steel-50);border:1px solid var(--line);padding:16px;overflow-x:auto;font-size:.85rem;line-height:1.5;margin:0}
+@media (max-width:860px){.sw{grid-template-columns:1fr 1fr}.sw.n{grid-template-columns:repeat(3,1fr)}.fonts,.grid2{grid-template-columns:1fr}.logos{grid-template-columns:1fr 1fr}.rules{grid-template-columns:1fr}.trow{grid-template-columns:1fr;gap:6px}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20.5" fill="none" stroke="currentColor" stroke-width="4.6"/><text x="24" y="30.5" text-anchor="middle" fill="currentColor" font-family="Barlow Semi Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="21" letter-spacing="-1.2">mm</text></symbol></svg>
+
+<header class="top"><div class="wrap">
+  <div class="brand"><img src="../assets/img/logo-metodo-branco.png" alt="Método" style="height:44px"></div>
+  <h1>Design System</h1>
+  <p>Tokens, tipografia e componentes para as peças digitais da Método Móveis e Sistemas de Armazenagem. Base: Manual de Identidade Visual. Aplicação de referência: landing page de sistemas de armazenagem.</p>
+</div></header>
+
+<main>
+<section><div class="wrap">
+  <div class="lbl">01 · Cor</div><h2>Paleta</h2>
+  <p class="lead">As quatro cores oficiais do manual. O azul é a cor dominante e estrutural; o laranja é acento: CTAs, fios de destaque e as longarinas nos desenhos. Nunca use laranja para texto sobre branco (contraste insuficiente).</p>
+  <div class="sw">
+    <div class="chip"><div style="background:#002E6D"></div><p><b>Azul Método</b>#002E6D · --navy<br>Fundos, nav, títulos em destaque</p></div>
+    <div class="chip"><div style="background:#FF9B00"></div><p><b>Laranja Método</b>#FF9B00 · --orange<br>CTA, fio de 4px, acento</p></div>
+    <div class="chip"><div style="background:#919497"></div><p><b>Cinza Aço</b>#919497 · --steel<br>Bordas de campo, apoio</p></div>
+    <div class="chip"><div style="background:#fff"></div><p><b>Branco</b>#FFFFFF · --white<br>Fundo base</p></div>
+  </div>
+  <p class="lead" style="margin:32px 0 16px">Escala derivada para interface. Os neutros puxam levemente para o azul da marca.</p>
+  <div class="sw n">
+    <div class="chip s"><div style="background:#001A42"></div><p><b>Navy 900</b>#001A42</p></div>
+    <div class="chip s"><div style="background:#1B4C8C"></div><p><b>Navy 600</b>#1B4C8C</p></div>
+    <div class="chip s"><div style="background:#E3EAF4"></div><p><b>Navy 100</b>#E3EAF4</p></div>
+    <div class="chip s"><div style="background:#E68A00"></div><p><b>Laranja 600</b>#E68A00 · hover</p></div>
+    <div class="chip s"><div style="background:#0D1A2E"></div><p><b>Ink</b>#0D1A2E · títulos</p></div>
+    <div class="chip s"><div style="background:#2A3446"></div><p><b>Texto</b>#2A3446</p></div>
+    <div class="chip s"><div style="background:#5A6475"></div><p><b>Muted</b>#5A6475</p></div>
+    <div class="chip s"><div style="background:#D4DAE3"></div><p><b>Linha</b>#D4DAE3</p></div>
+    <div class="chip s"><div style="background:#E9EDF2"></div><p><b>Aço 100</b>#E9EDF2</p></div>
+    <div class="chip s"><div style="background:#F4F6F9"></div><p><b>Aço 50</b>#F4F6F9 · seções</p></div>
+    <div class="chip s"><div style="background:#B42318"></div><p><b>Erro</b>#B42318</p></div>
+    <div class="chip s"><div style="background:#FFF1DA"></div><p><b>Laranja 100</b>#FFF1DA</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="lbl">02 · Tipografia</div><h2>Famílias e escala</h2>
+  <p class="lead">O manual define Conduit ITC para títulos e Myriad Pro para texto. Na web usamos equivalentes livres do Google Fonts, com as fontes originais na pilha de fallback.</p>
+  <div class="fonts">
+    <div class="font"><span class="big" style="font-family:var(--f-display);font-weight:600">Barlow Semi Condensed</span><p>Títulos, rótulos, botões e números. Substitui Conduit ITC: humanista, semicondensada, de desenho técnico. Pesos 500 · 600 · 700.</p></div>
+    <div class="font"><span class="big" style="font-family:var(--f-body)">Source Sans 3</span><p>Texto corrido e formulários. Substitui Myriad Pro, com proporções e leitura muito próximas. Pesos 400 · 600 · 700.</p></div>
+  </div>
+  <div class="type">
+    <div class="trow"><small><b>Display / H1</b>40–62px · 600 · lh 1.0</small><span style="font-family:var(--f-display);font-weight:600;font-size:clamp(2.2rem,5vw,3.9rem);line-height:1;color:var(--ink)">Mais capacidade na mesma área.</span></div>
+    <div class="trow"><small><b>H2 · seção</b>30–42px · 600 · lh 1.08</small><span style="font-family:var(--f-display);font-weight:600;font-size:clamp(1.9rem,3.4vw,2.6rem);color:var(--ink);line-height:1.08">Um sistema para cada tipo de carga.</span></div>
+    <div class="trow"><small><b>H3 · card</b>26px · 600</small><span style="font-family:var(--f-display);font-weight:600;font-size:1.625rem;color:var(--ink)">Porta-paletes</span></div>
+    <div class="trow"><small><b>Eyebrow</b>15px · 600 · caixa alta · +0.12em</small><span class="lbl" style="margin:0">Sistemas de armazenagem</span></div>
+    <div class="trow"><small><b>Lead</b>20px · 400</small><span style="font-size:1.25rem;color:var(--muted)">Projetamos, fabricamos e instalamos estruturas sob medida.</span></div>
+    <div class="trow"><small><b>Corpo</b>17px · 400 · lh 1.55</small><span>Acesso direto a cada palete. O sistema mais versátil para operações com empilhadeira e grande variedade de itens.</span></div>
+    <div class="trow"><small><b>Legenda</b>13px · 400</small><span style="font-size:.8125rem;color:var(--muted)">Seus dados são usados apenas para o contato comercial, conforme a LGPD.</span></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="lbl">03 · Logo</div><h2>Assinaturas</h2>
+  <p class="lead">Versão vertical é a preferencial; horizontal para espaços estreitos, como a navegação; símbolo isolado quando o nome já está presente. Grafias aceitas: "Método" ou "Método Móveis e Sistemas de Armazenagem".</p>
+  <div class="logos">
+    <div class="logo"><img src="../assets/img/logo-metodo-azul.png" alt="Logo Método azul" style="width:80%"></div>
+    <div class="logo inv"><img src="../assets/img/logo-metodo-branco.png" alt="Logo Método branco" style="width:80%"></div>
+    <div class="logo"><img src="../assets/img/simbolo-metodo-azul.png" alt="Símbolo Método azul" style="width:40%"></div>
+    <div class="logo gr"><img src="../assets/img/simbolo-metodo-branco.png" alt="Símbolo Método branco" style="width:40%"></div>
+  </div>
+  <p class="cap">Azul sobre fundos claros (navegação); branco sobre azul ou cinza (rodapé e hero).</p>
+  <div style="display:flex;align-items:center;gap:16px;margin-top:24px"><img src="../assets/img/simbolo-metodo-azul.png" alt="Favicon Método" style="width:48px;height:48px"><p class="cap" style="margin:0">Favicon: símbolo branco sobre quadrado azul Método (#002E6D), cantos arredondados. Legível em abas claras e escuras.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="lbl">04 · Assinatura visual</div><h2>Navegação leve, azul como assinatura</h2>
+  <p class="lead">O azul é a cor da marca, mas na web é usado com parcimônia para não pesar: fundos claros predominam, o azul fica no logo, títulos em destaque, botões secundários e no rodapé. O laranja marca o CTA principal e pequenos acentos.</p>
+  <div class="navdemo"><img src="../assets/img/logo-metodo-azul.png" alt="Método" style="height:34px"><div class="l"><span>Sistemas</span><span>Segmentos</span><span>Diferenciais</span><span>Cases</span></div><span class="btn" style="min-height:38px;padding:0 14px;font-size:.9rem">Solicite seu orçamento</span></div>
+  <p class="cap">Navegação fixa: fundo branco, sem barras; ao rolar ganha uma linha fina cinza e sombra suave. Item ativo sublinhado em laranja, CTA laranja sempre visível (no mobile, dentro do menu).</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="lbl">05 · Componentes</div><h2>Botões, campos e cards</h2>
+  <p class="lead">Botões sutis: texto em caixa normal com a fonte de títulos (600), borda de 1px e raio de 6px. Um CTA laranja por bloco; o secundário é contorno azul sobre branco. Campos e cards mantêm cantos quase retos (2–4px) para transmitir solidez.</p>
+  <div class="grid2">
+    <div class="demo"><h3>Botões · fundo claro</h3><div class="row"><span class="btn">Solicite seu orçamento</span><span class="btn btn-line">Fale com um especialista</span><span class="btn btn-navy">Solicitar diagnóstico</span></div><p class="note">Primário: fundo laranja, texto Ink (contraste acima de 8:1), hover Laranja 600. Secundário: fundo branco, borda e texto azul, hover Navy 100. Altura 46px, padding lateral 24px.</p></div>
+    <div class="demo dark"><h3>Botões · fundo azul</h3><div class="row"><span class="btn">Solicite seu orçamento</span><span class="btn btn-ghost">Fale com um especialista</span></div><p class="note">Sobre azul, o secundário é contorno branco translúcido.</p></div>
+    <div class="demo"><h3>Campo de formulário</h3><div class="field"><label for="ds-in">E-mail corporativo</label><input id="ds-in"></div><p class="note">Rótulo em Source Sans 700, sem placeholder. Campo branco, borda 1px cinza e raio de 6px; no foco, borda azul com halo Navy 100. O formulário fica num card branco com topo azul de 4px, raio de 8px e sombra suave, e o botão de envio é azul em largura total.</p></div>
+    <div class="card"><h4>Falta de espaço</h4><p>Card de dor ou benefício: borda de 1px, topo de 4px em azul. Sem sombra; a sombra é reservada ao formulário.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="lbl">06 · Espaço e grid</div><h2>Ritmo</h2>
+  <p class="lead">Base de 4px. Largura máxima de 1200px com margem lateral mínima de 16px. Seções com 112px verticais no desktop.</p>
+  <div class="sp">
+    <div><i style="width:4px"></i>4</div><div><i style="width:8px"></i>8</div><div><i style="width:12px"></i>12</div><div><i style="width:16px"></i>16</div><div><i style="width:24px"></i>24</div><div><i style="width:32px"></i>32</div><div><i style="width:48px"></i>48</div><div><i style="width:72px"></i>72</div><div><i style="width:112px"></i>112</div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="lbl">07 · Imagem e desenho</div><h2>Fotografia real e desenho técnico</h2>
+  <p class="lead">Prioridade para fotos reais de projetos e estruturas Método instaladas: galpões limpos, luz natural, estrutura em primeiro plano. Na falta de foto, usamos desenhos técnicos em vista frontal: montantes em azul, longarinas em laranja (como na estrutura física), cargas em cinza claro e cotas finas em caixa alta.</p>
+  <div class="rules">
+    <div class="rule"><h3>Use</h3><p>Fotos de obra entregue, vistas de corredor, detalhes de montante e longarina, equipe técnica em instalação.</p></div>
+    <div class="rule"><h3>Use</h3><p>Desenhos com cotas reais do projeto (altura útil, vão, carga por nível) para reforçar engenharia.</p></div>
+    <div class="rule no"><h3>Evite</h3><p>Banco de imagens genérico, pessoas posadas e móveis de aço em peças de armazenagem. O foco é o sistema.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="lbl">08 · Tom de voz</div><h2>Consultivo, direto, técnico</h2>
+  <p class="lead">Partimos da dor do cliente e chegamos à solução. Frases curtas, verbos de ação, termos do setor (posição-palete, pé-direito, picking, FIFO). Nada de superlativos vazios.</p>
+  <div class="rules">
+    <div class="rule"><h3>Assim</h3><p>"Mais capacidade de armazenagem na mesma área."</p></div>
+    <div class="rule"><h3>Assim</h3><p>"A solução certa depende do espaço, da carga e da operação."</p></div>
+    <div class="rule no"><h3>Não assim</h3><p>"As melhores estantes do mercado com preços imperdíveis!"</p></div>
+  </div>
+</div></section>
+
+<section style="border-bottom:0"><div class="wrap">
+  <div class="lbl">09 · Tokens</div><h2>CSS</h2>
+  <p class="lead">Copie para qualquer peça web da marca.</p>
+<pre>:root{
+  --navy:#002E6D; --navy-900:#001A42; --navy-800:#00245A; --navy-600:#1B4C8C; --navy-100:#E3EAF4;
+  --orange:#FF9B00; --orange-600:#E68A00; --orange-100:#FFF1DA; --steel:#919497;
+  --white:#FFFFFF; --steel-50:#F4F6F9; --steel-100:#E9EDF2; --line:#D4DAE3;
+  --ink:#0D1A2E; --text:#2A3446; --muted:#5A6475;
+  --f-display:"Barlow Semi Condensed","Conduit ITC","Arial Narrow",sans-serif;
+  --f-body:"Source Sans 3","Myriad Pro","Segoe UI",sans-serif;
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:24px; --s-6:32px; --s-7:48px; --s-8:72px; --s-9:112px;
+  --r-1:2px; --r-2:4px; --r-btn:6px; --max:1200px;
+}</pre>
+</div></section>
+</main>
+</body>
+</html>
